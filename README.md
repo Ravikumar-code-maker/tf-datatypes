@@ -162,3 +162,90 @@ list	Ordered same-type items	var.servers[1]	Row of mailboxes
 set	Unordered unique items	Cannot rely on index	Basket of fruits
 map	Key-value pairs	var.ami_ids["us-west-2"]	Cabinet with labeled drawers
 object	Structured named fields	var.server.name	Profile card
+
+
+
+**What Is a Route?
+**
+A route tells your network:
+
+“If traffic wants to go somewhere, where should I send it?”
+
+Think of it like a GPS rule.
+
+**🔎 What Each Line Means (Simple Version)
+**🔹 dest_range = "0.0.0.0/0"
+
+This means:
+
+ALL internet addresses.
+
+So any traffic going outside your VPC matches this rule.
+
+🔹 next_hop_gateway = "default-internet-gateway"
+
+This means:
+
+Send that traffic to the Internet.
+
+So traffic goes:
+
+VM → VPC → Internet Gateway → Internet
+
+**🚀 What This Actually Does
+**
+It allows your VM to:
+
+Install packages (apt update)
+
+Call external APIs
+
+Access websites
+
+Download updates
+
+Without this route:
+❌ Your VM cannot access the internet.
+
+**🧠 Real Example
+**
+If your VM tries to reach:
+
+8.8.8.8
+
+Google checks:
+
+Does it match 0.0.0.0/0? → YES (because that means everything)
+
+Where should it go? → default-internet-gateway
+
+So it sends traffic to the internet.
+
+🖼 Simple Picture
+Your VM
+   ↓
+Route rule (0.0.0.0/0)
+   ↓
+Internet Gateway
+   ↓
+Internet
+**⚠ Important
+**
+This route allows outbound internet access.
+
+It does NOT automatically allow inbound traffic.
+Inbound traffic depends on:
+
+Firewall rules
+
+External IP
+
+If you want, I can now explain:
+
+Why we use 0.0.0.0/0
+
+Difference between route and firewall
+
+How private VMs access internet using Cloud NAT
+
+How routing works in interviews
