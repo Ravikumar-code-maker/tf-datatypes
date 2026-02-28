@@ -44,4 +44,35 @@ resource "google_compute_instance" "vm" {
   }
 }
 
+############################
+# Cloud Storage Bucket
+############################
+resource "google_storage_bucket" "bucket" {
+  name          = var.env_config[var.environment].bucket_name
+  force_destroy = true
+}
+############################
+# API Gateway
+############################
+resource "google_api_gateway_api" "api" {
+  api_id = "${var.environment}-api"
+}
+
+resource "google_api_gateway_api_config" "api_config" {
+  api           = google_api_gateway_api.api.api_id
+  api_config_id = "${var.environment}-config"
+
+  openapi_documents {
+    documents {
+      path      = "openapi.yaml"
+      contents  = filebase64("openapi.yaml")
+    }
+  }
+}
+
+resource "google_api_gateway_gateway" "gateway" {
+  name       = "${var.environment}-gateway"
+  api_config = google_api_gateway_api_config.api_config.id
+  region     = var.region
+}
 
