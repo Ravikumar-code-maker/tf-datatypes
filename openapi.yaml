@@ -1,11 +1,28 @@
-output "vm_machine_type" {
-  value = google_compute_instance.vm.machine_type
-}
+openapi: 3.0.0
+info:
+  title: Sample API
+  description: Simple API for Terraform API Gateway
+  version: 1.0.0
 
-output "bucket_name" {
-  value = google_storage_bucket.bucket.name
-}
+servers:
+  - url: https://34.63.154.129
 
-output "vpc_name" {
-  value = google_compute_network.vpc.name
-}
+paths:
+  /hello:
+    get:
+      summary: Returns a hello message
+      operationId: hello
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+
+      x-google-backend:
+        address: http://34.63.154.129
+        protocol: http
