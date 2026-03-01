@@ -22,7 +22,7 @@ resource "google_compute_route" "default_route" {
   name             = "${var.environment}-route"
   network          = google_compute_network.vpc.name
   dest_range       = "0.0.0.0/0"
-  next_hop_gateway = "default-internet-fateway"
+  next_hop_gateway = "default-internet-gateway"
 }
 
 ############################
@@ -49,6 +49,7 @@ resource "google_compute_instance" "vm" {
 ############################
 resource "google_storage_bucket" "bucket" {
   name          = var.env_config[var.environment].bucket_name
+  location      = var.region
   force_destroy = true
 }
 ############################
@@ -75,4 +76,5 @@ resource "google_api_gateway_gateway" "gateway" {
   api_config = google_api_gateway_api_config.api_config.id
   region     = var.region
 }
+
 
