@@ -39,7 +39,7 @@ resource "google_compute_instance" "vm" {
     }
   }
   network_interface {
-    subnetwork = google_compute_network.subnet.id
+    subnetwork = google_compute_subnetwork.subnet.id
     access_config {}
   }
 }
@@ -66,7 +66,7 @@ resource "google_api_gateway_api_config" "api_config" {
   api_config_id = "${var.environment}-config"
 
   openapi_documents {
-    documents {
+    document {
       path      = "openapi.yaml"
       contents  = filebase64("openapi.yaml")
     }
@@ -79,6 +79,7 @@ resource "google_api_gateway_gateway" "gateway" {
   api_config = google_api_gateway_api_config.api_config.id
   region     = var.region
 }
+
 
 
 
