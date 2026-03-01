@@ -75,10 +75,12 @@ resource "google_api_gateway_api_config" "api_config" {
 
 resource "google_api_gateway_gateway" "gateway" {
   provider   = google-beta
+  gateway_id = "${var.environment}-gateway"
   name       = "${var.environment}-gateway"
   api_config = google_api_gateway_api_config.api_config.id
   region     = var.region
 }
+
 
 
 
