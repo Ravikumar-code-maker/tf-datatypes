@@ -56,10 +56,12 @@ resource "google_storage_bucket" "bucket" {
 # API Gateway
 ############################
 resource "google_api_gateway_api" "api" {
+  provider = google-beta
   api_id = "${var.environment}-api"
 }
 
 resource "google_api_gateway_api_config" "api_config" {
+  provider      = google-beta
   api           = google_api_gateway_api.api.api_id
   api_config_id = "${var.environment}-config"
 
@@ -72,9 +74,11 @@ resource "google_api_gateway_api_config" "api_config" {
 }
 
 resource "google_api_gateway_gateway" "gateway" {
+  provider   = google-beta
   name       = "${var.environment}-gateway"
   api_config = google_api_gateway_api_config.api_config.id
   region     = var.region
 }
+
 
 
